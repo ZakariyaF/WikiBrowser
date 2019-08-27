@@ -1,9 +1,10 @@
-package com.zakariyaf.wikibrowser
+package com.zakariyaf.wikibrowser.activities
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
+import com.zakariyaf.wikibrowser.R
 
 class MainActivity : AppCompatActivity() {
 

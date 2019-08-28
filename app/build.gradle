@@ -34,4 +34,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //Fuel
+    implementation 'com.github.kittinunf.fuel:fuel:2.2.0' //core
+    implementation 'com.github.kittinunf.fuel:fuel-android:2.2.0' //android support
+    implementation 'com.github.kittinunf.fuel:fuel-gson:2.2.0' //gson support
 }

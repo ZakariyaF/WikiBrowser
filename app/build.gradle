@@ -42,4 +42,7 @@ dependencies {
     implementation 'com.github.kittinunf.fuel:fuel:2.2.0' //core
     implementation 'com.github.kittinunf.fuel:fuel-android:2.2.0' //android support
     implementation 'com.github.kittinunf.fuel:fuel-gson:2.2.0' //gson support
+
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

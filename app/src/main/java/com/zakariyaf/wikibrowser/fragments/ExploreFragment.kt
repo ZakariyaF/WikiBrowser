@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zakariyaf.wikibrowser.R
 import com.zakariyaf.wikibrowser.activities.SearchActivity
 import com.zakariyaf.wikibrowser.adapters.ArticleCardRecyclerAdapter
+import com.zakariyaf.wikibrowser.providers.ArticleDataProvider
 import kotlinx.android.synthetic.main.fragment_explore.*
 
 
@@ -23,8 +24,11 @@ import kotlinx.android.synthetic.main.fragment_explore.*
  */
 class ExploreFragment : Fragment() {
 
+    private val articleProvider: ArticleDataProvider = ArticleDataProvider()
+
     var searchCardView: CardView? = null
     var exploreRecycler: RecyclerView? = null
+    var adapter: ArticleCardRecyclerAdapter = ArticleCardRecyclerAdapter()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,10 +42,17 @@ class ExploreFragment : Fragment() {
             context!!.startActivity(searchIntent)
         }
         exploreRecycler!!.layoutManager = LinearLayoutManager(context)
-        exploreRecycler!!.adapter = ArticleCardRecyclerAdapter()
+        exploreRecycler!!.adapter = adapter
 
         return view
     }
 
+    private fun getRandomArticles() {
+        articleProvider.getRandom(15, { wikiResult ->
+            adapter.currentResults.clear()
+            adapter.currentResults.addAll(wikiResult.query!!.pages)
+            activity?.runOnUiThread { adapter.notifyDataSetChanged() }
+        })
+    }
 
 }

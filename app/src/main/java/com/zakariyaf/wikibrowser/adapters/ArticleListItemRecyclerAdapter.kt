@@ -22,6 +22,7 @@ class ArticleListItemRecyclerAdapter() : RecyclerView.Adapter<ListItemHolder>() 
     }
 
     override fun onBindViewHolder(holder: ListItemHolder, position: Int) {
-
+        var page = currentResults[position]
+        holder.updateWithPage(page)
     }
 }

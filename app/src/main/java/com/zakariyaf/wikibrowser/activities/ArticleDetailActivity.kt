@@ -1,10 +1,8 @@
 package com.zakariyaf.wikibrowser.activities
 
-import android.net.http.SslError
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.webkit.SslErrorHandler
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -32,7 +30,7 @@ class ArticleDetailActivity : AppCompatActivity() {
                 return true
             }
         }
-        article_detail_webview.loadUrl(currentPage!!.fullUrl)
+        article_detail_webview.loadUrl(currentPage!!.fullurl)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

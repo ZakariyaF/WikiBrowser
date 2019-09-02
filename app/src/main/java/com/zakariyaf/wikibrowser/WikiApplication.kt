@@ -12,7 +12,7 @@ class WikiApplication : Application() {
     private var favoritesRepository: FavoritesRepository? = null
     private var historyRepository: HistoryRepository? = null
     private var wikiProvider: ArticleDataProvider? = null
-    private var wikiManager: WikiManager? = null
+    var wikiManager: WikiManager? = null
 
     override fun onCreate() {
         super.onCreate()

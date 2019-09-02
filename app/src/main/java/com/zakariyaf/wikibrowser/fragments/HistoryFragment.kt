@@ -14,7 +14,9 @@ import com.zakariyaf.wikibrowser.R
 import com.zakariyaf.wikibrowser.WikiApplication
 import com.zakariyaf.wikibrowser.adapters.ArticleListItemRecyclerAdapter
 import com.zakariyaf.wikibrowser.managers.WikiManager
+import com.zakariyaf.wikibrowser.models.WikiPage
 import kotlinx.android.synthetic.main.fragment_history.*
+import org.jetbrains.anko.doAsync
 
 /**
  * A simple [Fragment] subclass.
@@ -24,6 +26,7 @@ class HistoryFragment : Fragment() {
 
     private var wikiManager: WikiManager? = null
     var historyRecycler: RecyclerView? = null
+    private val adapter: ArticleListItemRecyclerAdapter = ArticleListItemRecyclerAdapter()
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -43,5 +46,15 @@ class HistoryFragment : Fragment() {
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        doAsync {
+            val history = wikiManager!!.getHistory()
+            adapter.currentResults.clear()
+            adapter.currentResults.addAll(history as ArrayList<WikiPage>)
+            activity?.runOnUiThread { adapter.notifyDataSetChanged() }
+        }
+    }
 
 }

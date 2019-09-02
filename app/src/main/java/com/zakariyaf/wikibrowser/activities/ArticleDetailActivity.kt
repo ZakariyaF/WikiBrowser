@@ -8,11 +8,14 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.google.gson.Gson
 import com.zakariyaf.wikibrowser.R
+import com.zakariyaf.wikibrowser.WikiApplication
+import com.zakariyaf.wikibrowser.managers.WikiManager
 import com.zakariyaf.wikibrowser.models.WikiPage
 import kotlinx.android.synthetic.main.activity_article_detail.*
 
 class ArticleDetailActivity : AppCompatActivity() {
 
+    private var wikiManager: WikiManager? = null
     private var currentPage: WikiPage? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +24,8 @@ class ArticleDetailActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        wikiManager = (applicationContext as WikiApplication).wikiManager
 
         val wikiPageJson = intent.getStringExtra("page")
         currentPage = Gson().fromJson<WikiPage>(wikiPageJson, WikiPage::class.java)
@@ -31,6 +36,8 @@ class ArticleDetailActivity : AppCompatActivity() {
             }
         }
         article_detail_webview.loadUrl(currentPage!!.fullurl)
+
+        wikiManager?.addHistory(currentPage!!)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

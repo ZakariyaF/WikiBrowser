@@ -14,7 +14,7 @@ class FavoritesRepository(val databaseHelper: ArticleDBOpenHelper) {
         databaseHelper.use {
             insert(
                 TABLE_NAME,
-                "id" to page.pageId,
+                "id" to page.pageid,
                 "title" to page.title,
                 "url" to page.fullurl,
                 "thumbnailJson" to Gson().toJson(page.thumbnail)
@@ -26,7 +26,7 @@ class FavoritesRepository(val databaseHelper: ArticleDBOpenHelper) {
         databaseHelper.use {
             delete(
                 TABLE_NAME,
-                "id = {pageId}", "pageId" to pageId
+                "id = {pageid}", "pageid" to pageId
             )
         }
     }
@@ -34,7 +34,7 @@ class FavoritesRepository(val databaseHelper: ArticleDBOpenHelper) {
     fun isArticleFavorite(pageId: Int): Boolean {
         var pages = getAllFavorites()
         return pages.any { page ->
-            page.pageId == pageId
+            page.pageid == pageId
         }
     }
 
@@ -43,7 +43,7 @@ class FavoritesRepository(val databaseHelper: ArticleDBOpenHelper) {
         val articleRowParser = rowParser { id: Int, title: String, url: String, thumbnailJson: String ->
             val page = WikiPage()
             page.title = title
-            page.pageId = id
+            page.pageid = id
             page.fullurl = url
             page.thumbnail = Gson().fromJson(thumbnailJson, WikiThumbnail::class.java)
             pages.add(page)

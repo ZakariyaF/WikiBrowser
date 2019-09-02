@@ -53,8 +53,8 @@ class ArticleDetailActivity : AppCompatActivity() {
             finish()
         } else if (item.itemId == R.id.action_favorite) {
             try {
-                if (wikiManager!!.getIsFavorite(currentPage!!.pageId!!)) {
-                    wikiManager!!.removeFavorite(currentPage!!.pageId!!)
+                if (wikiManager!!.getIsFavorite(currentPage!!.pageid!!)) {
+                    wikiManager!!.removeFavorite(currentPage!!.pageid!!)
                     toast("Article removed from favorites")
                 } else {
                     wikiManager!!.addFavorite(currentPage!!)

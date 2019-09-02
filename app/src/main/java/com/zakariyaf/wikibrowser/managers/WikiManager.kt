@@ -42,7 +42,7 @@ class WikiManager(
 
     fun removeFavorite(pageId: Int) {
         favoritesRepository.removeFavoriteById(pageId)
-        favoritesCache = favoritesCache!!.filter { it.pageId != pageId } as ArrayList<WikiPage>
+        favoritesCache = favoritesCache!!.filter { it.pageid != pageId } as ArrayList<WikiPage>
     }
 
     fun getIsFavorite(pageId: Int): Boolean {
@@ -57,7 +57,7 @@ class WikiManager(
     fun clearHistory() {
         historyCache?.clear()
         val allHistory = historyRepository.getAllHistory()
-        allHistory?.forEach { historyRepository.removeHistoryPageById(it.pageId!!) }
+        allHistory?.forEach { historyRepository.removeHistoryPageById(it.pageid!!) }
     }
 
 }

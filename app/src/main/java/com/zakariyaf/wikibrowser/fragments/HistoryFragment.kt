@@ -3,10 +3,8 @@ package com.zakariyaf.wikibrowser.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -16,7 +14,10 @@ import com.zakariyaf.wikibrowser.adapters.ArticleListItemRecyclerAdapter
 import com.zakariyaf.wikibrowser.managers.WikiManager
 import com.zakariyaf.wikibrowser.models.WikiPage
 import kotlinx.android.synthetic.main.fragment_history.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.yesButton
 
 /**
  * A simple [Fragment] subclass.
@@ -41,7 +42,7 @@ class HistoryFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_history, container, false)
         historyRecycler = view.findViewById(R.id.history_article_recycler)
         historyRecycler!!.layoutManager = LinearLayoutManager(context)
-        historyRecycler!!.adapter = ArticleListItemRecyclerAdapter()
+        historyRecycler!!.adapter = adapter
 
         return view
     }
@@ -55,6 +56,30 @@ class HistoryFragment : Fragment() {
             adapter.currentResults.addAll(history as ArrayList<WikiPage>)
             activity?.runOnUiThread { adapter.notifyDataSetChanged() }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater!!.inflate(R.menu.history_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item!!.itemId == R.id.action_clear_history) {
+            activity?.alert("Are you sure you want to clear history?", "Confirm") {
+                yesButton {
+                    adapter.currentResults.clear()
+                    doAsync {
+                        wikiManager?.clearHistory()
+                    }
+                    activity?.runOnUiThread { adapter.notifyDataSetChanged() }
+                }
+                noButton {
+
+                }
+            }?.show()
+        }
+        return true
     }
 
 }

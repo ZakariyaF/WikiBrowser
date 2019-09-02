@@ -45,4 +45,8 @@ dependencies {
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Anko
+    implementation "org.jetbrains.anko:anko-commons:0.10.8" //commons
+    implementation "org.jetbrains.anko:anko-sqlite:0.10.8" //SQLite
 }

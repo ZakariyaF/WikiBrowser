@@ -11,13 +11,15 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zakariyaf.wikibrowser.R
+import com.zakariyaf.wikibrowser.WikiApplication
 import com.zakariyaf.wikibrowser.adapters.ArticleListItemRecyclerAdapter
+import com.zakariyaf.wikibrowser.managers.WikiManager
 import com.zakariyaf.wikibrowser.providers.ArticleDataProvider
 import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : AppCompatActivity() {
 
-    private val articleProvider: ArticleDataProvider = ArticleDataProvider()
+    private var wikiManager: WikiManager? = null
     private var adapter: ArticleListItemRecyclerAdapter = ArticleListItemRecyclerAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +28,8 @@ class SearchActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        wikiManager = (applicationContext as WikiApplication).wikiManager
 
         search_results_recycler.layoutManager = LinearLayoutManager(this)
         search_results_recycler.adapter = adapter
@@ -48,7 +52,7 @@ class SearchActivity : AppCompatActivity() {
         searchView.requestFocus()
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                articleProvider.search(query, 0, 20) { wikiResult ->
+                wikiManager?.search(query, 0, 20) { wikiResult ->
                     adapter.currentResults.clear()
                     adapter.currentResults.addAll(wikiResult.query!!.pages)
                     runOnUiThread { adapter.notifyDataSetChanged() }

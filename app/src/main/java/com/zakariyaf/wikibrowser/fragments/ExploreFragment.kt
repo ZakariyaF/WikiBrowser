@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 import com.zakariyaf.wikibrowser.R
@@ -56,7 +57,7 @@ class ExploreFragment : Fragment() {
             val searchIntent = Intent(context, SearchActivity::class.java)
             context!!.startActivity(searchIntent)
         }
-        exploreRecycler!!.layoutManager = LinearLayoutManager(context)
+        exploreRecycler!!.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         exploreRecycler!!.adapter = adapter
 
         refresher?.setOnRefreshListener {

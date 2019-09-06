@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 import com.zakariyaf.wikibrowser.R
 import com.zakariyaf.wikibrowser.WikiApplication
@@ -41,7 +42,7 @@ class FavoritesFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_favorites, container, false)
         favoritesRecycler = view.findViewById(R.id.favorites_article_recycler)
-        favoritesRecycler!!.layoutManager = LinearLayoutManager(context)
+        favoritesRecycler!!.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         favoritesRecycler!!.adapter = adapter
 
         return view

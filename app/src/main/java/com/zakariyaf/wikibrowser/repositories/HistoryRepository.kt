@@ -6,6 +6,7 @@ import com.zakariyaf.wikibrowser.models.WikiThumbnail
 import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.rowParser
+import org.jetbrains.anko.db.select
 
 class HistoryRepository(val databaseHelper: ArticleDBOpenHelper) {
     private val TABLE_NAME: String = "History"
@@ -40,6 +41,9 @@ class HistoryRepository(val databaseHelper: ArticleDBOpenHelper) {
             page.fullurl = url
             page.thumbnail = Gson().fromJson(thumbnailJson, WikiThumbnail::class.java)
             pages.add(page)
+        }
+        databaseHelper.use {
+            select(TABLE_NAME).parseList(articleRowParser)
         }
         return pages
     }

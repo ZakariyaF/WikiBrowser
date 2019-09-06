@@ -29,6 +29,9 @@ class HistoryFragment : Fragment() {
     var historyRecycler: RecyclerView? = null
     private val adapter: ArticleListItemRecyclerAdapter = ArticleListItemRecyclerAdapter()
 
+    init {
+        setHasOptionsMenu(true)
+    }
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 

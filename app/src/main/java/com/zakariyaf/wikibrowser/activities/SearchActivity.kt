@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
+import android.widget.Toast.makeText
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,9 +56,8 @@ class SearchActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String): Boolean {
                 wikiManager?.search(query, 0, 20) { wikiResult ->
                     adapter.currentResults.clear()
-                    adapter.currentResults.addAll(wikiResult.query!!.pages)
+                    wikiResult.query?.pages?.let { adapter.currentResults.addAll(it) }
                     runOnUiThread { adapter.notifyDataSetChanged() }
-
                 }
                 return false
             }

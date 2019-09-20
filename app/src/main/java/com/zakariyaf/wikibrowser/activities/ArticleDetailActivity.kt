@@ -42,8 +42,8 @@ class ArticleDetailActivity : AppCompatActivity() {
 
         supportActionBar?.title = currentPage?.title
 
-
-
+        article_detail_webview.settings.javaScriptEnabled = true
+        article_detail_webview.settings.setAppCacheEnabled(true)
         article_detail_webview?.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 return true
@@ -58,8 +58,13 @@ class ArticleDetailActivity : AppCompatActivity() {
                 page_progress_bar?.visibility = View.INVISIBLE
                 super.onPageFinished(view, url)
             }
+
+            override fun onReceivedError(view: WebView?, errorCode: Int, description: String?, failingUrl: String?) {
+                article_detail_webview.loadUrl("file:///android_asset/error.html")
+            }
         }
-        article_detail_webview.settings.javaScriptEnabled = true
+
+
         loadWikiPage()
 
     }

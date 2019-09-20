@@ -83,8 +83,8 @@ class ExploreFragment : Fragment() {
                         adapter.currentResults.addAll(wikiResult.query!!.pages)
                         refresher?.isRefreshing = false
                         activity?.runOnUiThread {
-                            adapter.notifyDataSetChanged()
                             noConnectionTextView?.visibility = View.INVISIBLE
+                            adapter.notifyDataSetChanged()
                         }
                     }
                 } catch (ex: Exception) {

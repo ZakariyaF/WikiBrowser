@@ -2,11 +2,14 @@ package com.zakariyaf.wikibrowser.activities
 
 import android.app.SearchManager
 import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.makeText
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -18,16 +21,20 @@ import com.zakariyaf.wikibrowser.adapters.ArticleListItemRecyclerAdapter
 import com.zakariyaf.wikibrowser.managers.WikiManager
 import com.zakariyaf.wikibrowser.providers.ArticleDataProvider
 import kotlinx.android.synthetic.main.activity_search.*
+import org.jetbrains.anko.toast
 
 class SearchActivity : AppCompatActivity() {
 
     private var wikiManager: WikiManager? = null
     private var adapter: ArticleListItemRecyclerAdapter = ArticleListItemRecyclerAdapter()
 
+    private var noResultsTextView: TextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        noResultsTextView = findViewById(R.id.noResultsTextView)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
@@ -57,7 +64,14 @@ class SearchActivity : AppCompatActivity() {
                 wikiManager?.search(query, 0, 20) { wikiResult ->
                     adapter.currentResults.clear()
                     wikiResult.query?.pages?.let { adapter.currentResults.addAll(it) }
-                    runOnUiThread { adapter.notifyDataSetChanged() }
+                    runOnUiThread {
+                        adapter.notifyDataSetChanged()
+                        if (adapter.currentResults.isEmpty()) {
+                            noResultsTextView?.visibility = View.VISIBLE
+                        } else {
+                            noResultsTextView?.visibility = View.INVISIBLE
+                        }
+                    }
                 }
                 return false
             }

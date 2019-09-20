@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
@@ -18,9 +18,19 @@
     </com.google.android.material.appbar.AppBarLayout>
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_results_recycler"
+            android:layout_below="@id/appbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
     </androidx.recyclerview.widget.RecyclerView>
-
-</LinearLayout>
+    <TextView
+            android:id="@+id/noResultsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            android:text="No results ¯\\_(ツ)_/¯"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="24sp"
+            android:gravity="center"
+    />
+</RelativeLayout>

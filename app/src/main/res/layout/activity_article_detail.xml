@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -20,12 +20,24 @@
     </com.google.android.material.appbar.AppBarLayout>
     <WebView
             android:id="@+id/article_detail_webview"
+            android:layout_below="@id/appbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
     </WebView>
     <ProgressBar
             android:id="@+id/page_progress_bar"
+            android:layout_centerInParent="true"
             android:layout_width="56dp"
             android:layout_height="56dp"/>
-
-</LinearLayout>
+    <TextView
+            android:id="@+id/noConnectionTextViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            android:text="No connection ¯\\_(ツ)_/¯"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="24sp"
+            android:gravity="center"
+    />
+</RelativeLayout>

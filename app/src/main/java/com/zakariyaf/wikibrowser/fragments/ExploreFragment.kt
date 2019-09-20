@@ -10,19 +10,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 
 import com.zakariyaf.wikibrowser.R
 import com.zakariyaf.wikibrowser.WikiApplication
 import com.zakariyaf.wikibrowser.activities.SearchActivity
 import com.zakariyaf.wikibrowser.adapters.ArticleCardRecyclerAdapter
+import com.zakariyaf.wikibrowser.helpers.ConnectivityHelper
 import com.zakariyaf.wikibrowser.managers.WikiManager
 import com.zakariyaf.wikibrowser.providers.ArticleDataProvider
 import kotlinx.android.synthetic.main.fragment_explore.*
+import org.jetbrains.anko.find
 import java.lang.Exception
 
 
@@ -38,6 +42,7 @@ class ExploreFragment : Fragment() {
     var exploreRecycler: RecyclerView? = null
     var adapter: ArticleCardRecyclerAdapter = ArticleCardRecyclerAdapter()
     var refresher: SwipeRefreshLayout? = null
+    var noConnectionTextView: TextView? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -53,6 +58,7 @@ class ExploreFragment : Fragment() {
         refresher = view.findViewById(R.id.refresher)
         searchCardView = view.findViewById(R.id.search_card_view)
         exploreRecycler = view.findViewById(R.id.explore_article_recycler)
+        noConnectionTextView = view.findViewById(R.id.noConnectionTextView)
         searchCardView!!.setOnClickListener {
             val searchIntent = Intent(context, SearchActivity::class.java)
             context!!.startActivity(searchIntent)
@@ -68,22 +74,38 @@ class ExploreFragment : Fragment() {
     }
 
     private fun getRandomArticles() {
-        refresher?.isRefreshing = true
-        try {
-            wikiManager?.getRandom(15) { wikiResult ->
+        ConnectivityHelper.hasInternetConnection().subscribe { hasInternet ->
+            if (hasInternet) {
+                refresher?.isRefreshing = true
+                try {
+                    wikiManager?.getRandom(15) { wikiResult ->
+                        adapter.currentResults.clear()
+                        adapter.currentResults.addAll(wikiResult.query!!.pages)
+                        refresher?.isRefreshing = false
+                        activity?.runOnUiThread {
+                            adapter.notifyDataSetChanged()
+                            noConnectionTextView?.visibility = View.INVISIBLE
+                        }
+                    }
+                } catch (ex: Exception) {
+                    val builder = AlertDialog.Builder(activity)
+                    builder.setMessage(ex.message).setTitle("Oops!")
+                    val dialog = builder.create()
+                    dialog.show()
+                }
+            } else {
                 adapter.currentResults.clear()
-                adapter.currentResults.addAll(wikiResult.query!!.pages)
+                refresher?.isRefreshing = false
                 activity?.runOnUiThread {
-                    adapter.notifyDataSetChanged()
-                    refresher?.isRefreshing = false
+                    noConnectionTextView?.visibility = View.VISIBLE
+                    var snackbar =
+                        Snackbar.make(exploreRecycler!!, "No connection. Try again?", Snackbar.LENGTH_INDEFINITE)
+                    snackbar.setAction("Retry!") { getRandomArticles() }
+                    snackbar.show()
                 }
             }
-        } catch (ex: Exception) {
-            val builder = AlertDialog.Builder(activity)
-            builder.setMessage(ex.message).setTitle("Oops!")
-            val dialog = builder.create()
-            dialog.show()
         }
+
 
     }
 

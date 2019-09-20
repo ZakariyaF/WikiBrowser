@@ -54,5 +54,15 @@
                 android:layout_height="match_parent">
         </androidx.recyclerview.widget.RecyclerView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <TextView
+            android:id="@+id/noConnectionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:text="No connection. ¯\\_(ツ)_/¯"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            android:gravity="center"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

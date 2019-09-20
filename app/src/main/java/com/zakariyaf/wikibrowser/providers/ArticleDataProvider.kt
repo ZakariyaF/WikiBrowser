@@ -24,6 +24,7 @@ class ArticleDataProvider {
             }
     }
 
+
     fun getRandom(take: Int, responseHandler: (result: WikiResult) -> Unit?) {
         Urls.getRandomUrl(take).httpGet()
             .responseObject(WikipediaDataDeserializer()) { _, response, result ->
@@ -34,9 +35,8 @@ class ArticleDataProvider {
                 responseHandler.invoke(data as WikiResult)
             }
     }
+    }
 
     class WikipediaDataDeserializer : ResponseDeserializable<WikiResult> {
         override fun deserialize(reader: Reader): WikiResult = Gson().fromJson(reader, WikiResult::class.java)
     }
-
-}

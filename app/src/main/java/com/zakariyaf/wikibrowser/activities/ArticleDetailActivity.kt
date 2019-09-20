@@ -61,6 +61,7 @@ class ArticleDetailActivity : AppCompatActivity() {
 
             override fun onReceivedError(view: WebView?, errorCode: Int, description: String?, failingUrl: String?) {
                 article_detail_webview.loadUrl("file:///android_asset/error.html")
+                super.onReceivedError(view, errorCode, description, failingUrl)
             }
         }
 
@@ -92,7 +93,7 @@ class ArticleDetailActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item!!.itemId == android.R.id.home) {
+        if (item.itemId == android.R.id.home) {
             finish()
         }
         ConnectivityHelper.hasInternetConnection().subscribe { hasInternet ->

@@ -1,7 +1,7 @@
 package com.zakariyaf.wikibrowser.activities
 
+import android.content.Intent
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,6 +10,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.zakariyaf.wikibrowser.R
@@ -95,6 +96,15 @@ class ArticleDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             finish()
+        }
+        if (item.itemId == R.id.action_share) {
+            val stringMessage =
+                "Check out this awesome article i found on Wiki \n" + currentPage!!.title + "\n" + currentPage!!.fullurl
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, stringMessage)
+            startActivity(Intent.createChooser(shareIntent, "Share Article via"))
         }
         ConnectivityHelper.hasInternetConnection().subscribe { hasInternet ->
             if (hasInternet) {

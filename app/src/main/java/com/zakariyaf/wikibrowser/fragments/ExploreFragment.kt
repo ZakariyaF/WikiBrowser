@@ -1,33 +1,26 @@
 package com.zakariyaf.wikibrowser.fragments
 
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
-
 import com.zakariyaf.wikibrowser.R
 import com.zakariyaf.wikibrowser.WikiApplication
 import com.zakariyaf.wikibrowser.activities.SearchActivity
 import com.zakariyaf.wikibrowser.adapters.ArticleCardRecyclerAdapter
 import com.zakariyaf.wikibrowser.helpers.ConnectivityHelper
 import com.zakariyaf.wikibrowser.managers.WikiManager
-import com.zakariyaf.wikibrowser.providers.ArticleDataProvider
-import kotlinx.android.synthetic.main.fragment_explore.*
-import org.jetbrains.anko.find
-import java.lang.Exception
 
 
 /**
@@ -49,6 +42,7 @@ class ExploreFragment : Fragment() {
 
         wikiManager = (activity?.applicationContext as WikiApplication).wikiManager
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,7 +57,8 @@ class ExploreFragment : Fragment() {
             val searchIntent = Intent(context, SearchActivity::class.java)
             context!!.startActivity(searchIntent)
         }
-        exploreRecycler!!.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        exploreRecycler!!.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         exploreRecycler!!.adapter = adapter
 
         refresher?.setOnRefreshListener {
@@ -99,13 +94,16 @@ class ExploreFragment : Fragment() {
                 activity?.runOnUiThread {
                     noConnectionTextView?.visibility = View.VISIBLE
                     var snackbar =
-                        Snackbar.make(exploreRecycler!!, "No connection. Try again?", Snackbar.LENGTH_INDEFINITE)
+                        Snackbar.make(
+                            exploreRecycler!!,
+                            "No connection. Try again?",
+                            Snackbar.LENGTH_INDEFINITE
+                        )
                     snackbar.setAction("Retry!") { getRandomArticles() }
                     snackbar.show()
                 }
             }
         }
-
 
     }
 

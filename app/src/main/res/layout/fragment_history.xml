@@ -11,4 +11,15 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <TextView
+            android:id="@+id/noHistory_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="No History"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="24sp"
+            android:visibility="invisible" />
 </FrameLayout>

@@ -4,11 +4,25 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context=".fragments.FavoritesFragment">
+
+
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/favorites_article_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+            android:id="@+id/noFavTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="No Favorites"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="24sp"
+            android:visibility="invisible" />
 
 </FrameLayout>

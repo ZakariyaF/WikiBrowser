@@ -4,16 +4,15 @@ package com.zakariyaf.wikibrowser.fragments
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.zakariyaf.wikibrowser.R
 import com.zakariyaf.wikibrowser.WikiApplication
 import com.zakariyaf.wikibrowser.adapters.ArticleListItemRecyclerAdapter
 import com.zakariyaf.wikibrowser.managers.WikiManager
 import com.zakariyaf.wikibrowser.models.WikiPage
-import kotlinx.android.synthetic.main.fragment_history.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.noButton
@@ -25,9 +24,11 @@ import org.jetbrains.anko.yesButton
  */
 class HistoryFragment : Fragment() {
 
+
     private var wikiManager: WikiManager? = null
     var historyRecycler: RecyclerView? = null
     private val adapter: ArticleListItemRecyclerAdapter = ArticleListItemRecyclerAdapter()
+    var noHistory_textview: TextView? = null
 
     init {
         setHasOptionsMenu(true)
@@ -43,6 +44,7 @@ class HistoryFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_history, container, false)
+        noHistory_textview = view.findViewById(R.id.noHistory_textview)
         historyRecycler = view.findViewById(R.id.history_article_recycler)
         historyRecycler!!.layoutManager = LinearLayoutManager(context)
         historyRecycler!!.adapter = adapter
@@ -55,9 +57,16 @@ class HistoryFragment : Fragment() {
 
         doAsync {
             val history = wikiManager!!.getHistory()
-            adapter.currentResults.clear()
-            adapter.currentResults.addAll(history as ArrayList<WikiPage>)
             activity?.runOnUiThread { adapter.notifyDataSetChanged() }
+            if (history!!.isEmpty()) {
+                noHistory_textview?.visibility = View.VISIBLE
+                historyRecycler?.visibility = View.INVISIBLE
+            } else {
+                adapter.currentResults.clear()
+                adapter.currentResults.addAll(history as ArrayList<WikiPage>)
+                activity?.runOnUiThread { adapter.notifyDataSetChanged() }
+            }
+
         }
     }
 
@@ -74,8 +83,11 @@ class HistoryFragment : Fragment() {
                     adapter.currentResults.clear()
                     doAsync {
                         wikiManager?.clearHistory()
+
                     }
                     activity?.runOnUiThread { adapter.notifyDataSetChanged() }
+                    noHistory_textview?.visibility = View.VISIBLE
+                    historyRecycler?.visibility = View.INVISIBLE
                 }
                 noButton {
 

@@ -46,7 +46,11 @@ class ArticleDetailActivity : AppCompatActivity() {
         article_detail_webview.settings.javaScriptEnabled = true
         article_detail_webview.settings.setAppCacheEnabled(true)
         article_detail_webview?.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
+                view?.loadUrl(request?.url.toString())
                 return true
             }
 
@@ -60,7 +64,12 @@ class ArticleDetailActivity : AppCompatActivity() {
                 super.onPageFinished(view, url)
             }
 
-            override fun onReceivedError(view: WebView?, errorCode: Int, description: String?, failingUrl: String?) {
+            override fun onReceivedError(
+                view: WebView?,
+                errorCode: Int,
+                description: String?,
+                failingUrl: String?
+            ) {
                 article_detail_webview.loadUrl("file:///android_asset/error.html")
                 super.onReceivedError(view, errorCode, description, failingUrl)
             }
@@ -82,7 +91,11 @@ class ArticleDetailActivity : AppCompatActivity() {
                 noConnectionTextView?.visibility = View.VISIBLE
                 page_progress_bar?.visibility = View.INVISIBLE
                 var snackbar =
-                    Snackbar.make(noConnectionTextView!!, "No connection. Try again?", Snackbar.LENGTH_INDEFINITE)
+                    Snackbar.make(
+                        noConnectionTextView!!,
+                        "No connection. Try again?",
+                        Snackbar.LENGTH_INDEFINITE
+                    )
                 snackbar.setAction("Retry!") { loadWikiPage() }
                 snackbar.show()
             }
@@ -93,6 +106,7 @@ class ArticleDetailActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.article_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             finish()

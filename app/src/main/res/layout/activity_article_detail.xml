@@ -28,4 +28,15 @@
             android:layout_width="56dp"
             android:layout_height="56dp"/>
 
+    <TextView
+            android:id="@+id/noConnectionTextViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            android:text="No connection ¯\\_(ツ)_/¯"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="24sp"
+            android:gravity="center" />
+
 </LinearLayout>
